@@ -1,0 +1,103 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:root {
+  --index: calc(1vw + 1vh);
+  --transition: cubic-bezier(0.1, 0.7, 0, 1);
+}
+
+body {
+  background: #141414;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  justify-content: space-around;
+}
+.group__items {
+  display: flex;
+  flex-direction: column;
+  perspective: calc(var(--index) * 32);
+}
+
+.group__items .item:active,
+.group__items .item:focus {
+  height: 20vh;
+  filter: inherit;
+  z-index: 100;
+  transform: translateZ(calc(var(--index) * 10));
+  filter: inherit;
+}
+
+.item {
+  width: calc(var(--index) * 12);
+  height: calc(var(--index) * 3);
+  background-color: #222;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  filter: grayscale() brightness(0.5);
+  transition: transform 1.25s var(--transition), filter 3s var(--transition),
+    height 1.25s var(--transition);
+  will-change: transform, filter;
+}
+
+/* зазор между элементами */
+.item::before,
+.item::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 20px;
+  right: calc(var(--index) * -1);
+}
+
+.item::after {
+  left: calc(var(--index) * -1);
+}
+
+.group__items .item:hover {
+  transform: translateZ(calc(var(--index) * 10));
+  filter: inherit;
+}
+
+/*  3 блока слева */
+.group__items .item:has(+ :hover) {
+  filter: inherit;
+  transform: translateZ(calc(var(--index) * 8.5)) rotateX(40deg);
+}
+
+.group__items .item:has(+ * + :hover) {
+  filter: inherit;
+  transform: translateZ(calc(var(--index) * 5.6)) rotateX(38deg);
+}
+
+.group__items .item:has(+ * + * + :hover) {
+  filter: inherit;
+  transform: translateZ(calc(var(--index) * 2.4)) rotateX(37deg);
+}
+
+/*  3 блока справа */
+
+.group__items .item:hover + * {
+  filter: inherit;
+  transform: translateZ(calc(var(--index) * 8.5)) rotateX(-40deg);
+  z-index: -1;
+}
+
+.group__items .item:hover + * + * {
+  filter: inherit;
+  transform: translateZ(calc(var(--index) * 5.6)) rotateX(-38deg);
+  z-index: -2;
+}
+
+.group__items .item:hover + * + * + * {
+  filter: inherit;
+  transform: translateZ(calc(var(--index) * 2.4)) rotateX(-37deg);
+  z-index: -3;
+}
